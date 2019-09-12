@@ -1,0 +1,9 @@
+.modal-body {
+  background-color: #184067 !important;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.modal-body button {
+  background-color: #0fb76b !important;
+}

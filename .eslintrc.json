@@ -1,0 +1,26 @@
+{
+  "env": {
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": ["prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+
+  "rules": {
+    "import/newline-after-import": "off",
+    "guard-for-in": "off",
+    "no-restricted-syntax": "off",
+    "no-unsafe-finally": "off",
+    "no-console": "off",
+    "no-await-in-loop": "off",
+    "no-new": "off",
+    "import/order": "no"
+  }
+}
