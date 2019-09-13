@@ -74,7 +74,7 @@ export default class Login extends Component {
             </div>
             {/* 
             
-              CRIAR UM COMPONENTE DE BUTTON LOADER COM ESSE SVG!!!!!!!!!!!11
+              CRIAR UM COMPONENTE DE BUTTON LOADER COM ESSE SVG!!!!!!!!!!!
 
             <div className="col-sm-7">
             <div id="svgAnimation">

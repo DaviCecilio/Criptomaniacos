@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Modal from '../common/ui/modal/modal';
+import '../../vendor/css/apiKey/apiKey.css';
+import { Link } from 'react-router-dom';
 
 export default class ApiKey extends Component {
   constructor(props) {
@@ -55,28 +57,29 @@ export default class ApiKey extends Component {
                   authorization. Questions and suggestions:{' '}
                   <strong>contato@criptomaniacos.io</strong>
                 </div>
+                <div className="tutorial-opener">
+                  <i className="fa fa-question-circle" aria-hidden="true" />
+                </div>
                 <form className="contactForm">
-                  <div className="tutorial-opener">
-                    <i className="fa fa-question-circle" aria-hidden="true" />
-                  </div>
                   <div className="row">
-                    <div className="col-md-12">
+                    <div className="col-md-12 mt-3">
                       <div className="form-group">
                         <input
-                          type="password"
-                          name="secretKey"
+                          id="alias"
+                          type="text"
+                          name="name"
                           component="input"
                           className="form-control"
-                          placeholder="API KEY SECRET"
+                          placeholder="Ex: Connection-1"
                         />
                       </div>
                       <div className="form-group">
                         <input
                           type="password"
-                          name="secretKey"
+                          name="apiKey"
                           component="input"
                           className="form-control"
-                          placeholder="API KEY SECRET"
+                          placeholder="API KEY"
                         />
                       </div>
                       <div className="form-group">
@@ -106,13 +109,15 @@ export default class ApiKey extends Component {
                     </div>
                     <div className="clearfix" />
                     <div className="col-lg-12 text-center">
-                      <button
-                        data-tut="reactour_submit"
-                        type="submit"
-                        className="btn modal-btn btn-success"
-                      >
-                        Save
-                      </button>
+                      <Link to="/followtrader">
+                        <button
+                          data-tut="reactour_submit"
+                          type="submit"
+                          className="btn modal-btn btn-success"
+                        >
+                          Save
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 </form>

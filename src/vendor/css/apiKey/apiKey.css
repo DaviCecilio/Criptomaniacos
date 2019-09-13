@@ -1,0 +1,13 @@
+.tutorial-opener {
+  float: right;
+  margin-top: -15px;
+  margin-right: 6px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #002b4b;
+}
+
+.contactForm {
+  text-align: center;
+  align-items: center;
+}

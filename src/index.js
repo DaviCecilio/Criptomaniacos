@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Login from './components/auth/login/login';
 import ApiKey from './components/apiKey/apiKey';
+import FollowTrader from './components/followTrader/followTrader';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ ReactDOM.render(
     <Switch>
       <Route exact path="/" component={Login} />
       <Route exact path="/apikey" component={ApiKey} />
+      <Route exact path="/followtrader" component={FollowTrader} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')
