@@ -24,12 +24,12 @@ export default class ApiKey extends Component {
         <Modal show={termsModalOpen}>
           <div style={{ textAlign: 'center' }}>
             <p>
-              Hi, Criptomaníacos is still in the testing phase, we are not
-              responsible for any bug, error, failure in the operation of the
-              platform and its interaction with APIs. By using our platform you
-              accept that it is in the condition in which it is found, and there
-              is no obligation on our part to deliver the finished product or
-              its features.
+              Olá, a Criptomaníacos ainda está em fase de testes, não
+              responsabilizamos por qualquer "bug", erro, falha na operação da
+              plataforma e sua interação com APIs. Ao usar nossa plataforma,
+              você aceita que está na condição em que é encontrado, e não há
+              nenhuma obrigação de nossa parte de entregar o produto acabado ou
+              suas características.
             </p>
             <button
               className="btn modal-btn btn-success"
@@ -51,10 +51,10 @@ export default class ApiKey extends Component {
                   className="alert alert-danger"
                   data-tut="reactour_disclaimer"
                 >
-                  Your API key is stored in encrypted form and no one can access
-                  it. It's only possible to make withdrawals with authorization
-                  of the account owner, but Criptomaníacos will never ask this
-                  authorization. Questions and suggestions:{' '}
+                  Sua chave de API é armazenada em forma criptografada e ninguém
+                  pode acessá-la. Só é possível fazer saques com a autorização
+                  do proprietário da conta, mas a Criptomaníacos nunca
+                  solicitará essa autorização. Perguntas ou Sugestões:{' '}
                   <strong>contato@criptomaniacos.io</strong>
                 </div>
                 <div className="tutorial-opener">
@@ -99,9 +99,9 @@ export default class ApiKey extends Component {
                               name="useTerms"
                               type="checkbox"
                             />
-                            I agree to the{' '}
-                            <a href="#" onClick={this.toggleTermsModal}>
-                              user terms and conditions
+                            Eu aceito os{' '}
+                            <a href={'#modal'} onClick={this.toggleTermsModal}>
+                              termos de uso e condições
                             </a>
                           </label>
                         </div>

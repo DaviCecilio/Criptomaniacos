@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import '../../../vendor/css/login/logoAnimation.css';
 import '../../../vendor/css/login/login.css';
+import Particles from '../../../vendor/assets/animations/particles';
 
-import Animation from '../../../vendor/assets/animation/animationBackground';
 import logo from '../../../vendor/assets/img/logo-cripto.svg';
 import { Link } from 'react-router-dom';
 
 export default class Login extends Component {
   render() {
     return (
-      <div className="container-fluid login">
-        <div>
-          <Animation />
+      <div>
+        <Particles />
 
+        <div className="container-fluid login">
           <div
             className="row justify-content-center align-items-center"
             id="parent"
@@ -31,7 +30,7 @@ export default class Login extends Component {
                     <div className="input-group mb-3">
                       <div className="input-group-prepend">
                         <span className="input-group-text" id="basic-addon1">
-                          @
+                          <i class="material-icons">email</i>
                         </span>
                       </div>
                       <input
@@ -46,7 +45,9 @@ export default class Login extends Component {
                     <div className="form-group">
                       <div className="input-group">
                         <div className="input-group-prepend">
-                          <span className="input-group-text">**</span>
+                          <span className="input-group-text">
+                            <i class="material-icons">lock</i>
+                          </span>
                         </div>
                         <input
                           className="form-control"
@@ -56,10 +57,10 @@ export default class Login extends Component {
                       </div>
                     </div>
                     <div className="form-group">
-                      <Link to="/apikey">
+                      <Link to="/apikey" className="link">
                         <button
                           type="submit"
-                          className="btn btn-primary btn-block"
+                          className="btn btn-outline-success btn-block"
                         >
                           Login
                         </button>

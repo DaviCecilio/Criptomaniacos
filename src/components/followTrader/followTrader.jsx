@@ -8,7 +8,7 @@ export default class ApiKey extends Component {
     super(props);
 
     this.state = {
-      isFollow: null,
+      isFollow: true,
       warningUnfollowOpen: false,
       warningFollowOpen: false,
     };
@@ -18,12 +18,12 @@ export default class ApiKey extends Component {
     this.confirmChoice = this.confirmChoice.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({ isFollow: true });
-  }
-
   handleChange() {
+    const { isFollow } = this.state;
     this.setState({ isFollow: !this.state.isFollow });
+    isFollow === true
+      ? this.ToggleWarningUnfollow()
+      : this.ToggleWarningFollow();
   }
 
   confirmChoice() {
@@ -34,13 +34,11 @@ export default class ApiKey extends Component {
   }
 
   ToggleWarningUnfollow() {
-    const { warningUnfollowOpen } = this.state;
-    this.setState({ warningUnfollowOpen: !warningUnfollowOpen });
+    this.setState({ warningUnfollowOpen: !this.state.warningUnfollowOpen });
   }
 
   ToggleWarningFollow() {
-    const { warningFollowOpen } = this.state;
-    this.setState({ warningFollowOpen: !warningFollowOpen });
+    this.setState({ warningFollowOpen: !this.state.warningFollowOpen });
   }
 
   showFollow() {
@@ -172,7 +170,7 @@ export default class ApiKey extends Component {
               </svg>
             </div>
             <h2>Você está prestes a seguir a Criptomaníacos</h2>
-            <p>Todas as novas operações dele serão copiadas para você</p>
+            <p>Todas as novas operações serão copiadas para você</p>
 
             <button
               type="buton"
@@ -237,6 +235,10 @@ export default class ApiKey extends Component {
                   {this.state.isFollow === true
                     ? this.showFollow()
                     : this.showUnfollow()}
+                  {console.log(
+                    this.state.warningUnfollowOpen &&
+                      this.state.warningFollowOpen
+                  )}
                 </div>
 
                 <div className="card-text mt-4">
