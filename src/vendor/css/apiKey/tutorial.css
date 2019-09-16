@@ -1,0 +1,19 @@
+.tutorial-div {
+  text-align: center;
+}
+
+.tutorial-div button {
+  margin: 5px;
+}
+
+.image-viewer {
+  z-index: 10000000 !important;
+}
+
+.tutorial-opener {
+  float: right;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import Modal from '../common/ui/modal/modal';
-import '../../vendor/css/apiKey/apiKey.css';
-import { Link } from 'react-router-dom';
 
-export default class ApiKey extends Component {
+import '../../vendor/css/apiKey/apiKey.css';
+import '../../vendor/css/apiKey/tutorial.css';
+
+import { Link } from 'react-router-dom';
+import Tour from 'reactour';
+
+class ApiKey extends Component {
   constructor(props) {
     super(props);
     this.state = {
       termsModalOpen: false,
+      isTourOpen: false,
+      imageViewer: false,
     };
     this.toggleTermsModal = this.toggleTermsModal.bind(this);
   }
@@ -17,10 +23,30 @@ export default class ApiKey extends Component {
     this.setState({ termsModalOpen: !termsModalOpen });
   }
 
+  closeTour = () => {
+    this.setState({ isTourOpen: false });
+  };
+
+  openTour = () => {
+    this.setState({ isTourOpen: true });
+  };
+
   render() {
-    const { termsModalOpen } = this.state;
+    const { termsModalOpen, isTourOpen } = this.state;
+    const accentColor = '#184067';
     return (
       <div>
+        <Tour
+          onRequestClose={this.closeTour}
+          steps={tourConfig}
+          isOpen={isTourOpen}
+          maskClassName="mask"
+          className="helper"
+          rounded={5}
+          accentColor={accentColor}
+          onAfterOpen={this.disableBody}
+          onBeforeClose={this.enableBody}
+        />
         <Modal show={termsModalOpen}>
           <div style={{ textAlign: 'center' }}>
             <p>
@@ -57,7 +83,10 @@ export default class ApiKey extends Component {
                   solicitará essa autorização. Perguntas ou Sugestões:{' '}
                   <strong>contato@criptomaniacos.io</strong>
                 </div>
-                <div className="tutorial-opener">
+                <div
+                  onClick={() => this.openTour()}
+                  className="tutorial-opener"
+                >
                   <i className="fa fa-question-circle" aria-hidden="true" />
                 </div>
                 <form className="contactForm">
@@ -71,6 +100,7 @@ export default class ApiKey extends Component {
                           component="input"
                           className="form-control"
                           placeholder="Ex: Connection-1"
+                          data-tut="reactour_addAlias"
                         />
                       </div>
                       <div className="form-group">
@@ -80,6 +110,7 @@ export default class ApiKey extends Component {
                           component="input"
                           className="form-control"
                           placeholder="API KEY"
+                          data-tut="reactour_addApiKey"
                         />
                       </div>
                       <div className="form-group">
@@ -89,6 +120,7 @@ export default class ApiKey extends Component {
                           component="input"
                           className="form-control"
                           placeholder="API KEY SECRET"
+                          data-tut="reactour_addApiSecret"
                         />
                       </div>
                       <div className="form-group">
@@ -129,3 +161,153 @@ export default class ApiKey extends Component {
     );
   }
 }
+const tourConfig = [
+  {
+    selector: '',
+    content: () => (
+      <div>
+        <span>Bem vindo! Vamos começar configurando as chaves de sua API.</span>
+      </div>
+    ),
+  },
+  {
+    selector: '[data-tut="reactour_addAlias"]',
+    content: `Dê um nome de sua preferência para a sua conexão e clique na seta a direita
+     para avançar.`,
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          Agora preciso saber se você já possui uma API Key cadastrada na
+          corretora.
+        </span>
+        <br />
+
+        <button className="btn btn-danger" onClick={() => goTo(3)}>
+          O que é isto?
+        </button>
+        <button className="btn btn-primary" onClick={() => goTo(4)}>
+          Sei o que é, mas não possuo.
+        </button>
+      </div>
+    ),
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          As chaves de sua API são a conexão entra a Cryptonita e a sua
+          corretora. É por meio dessas chaves que os melhores traders poderão
+          efetuar operações em sua conta, enquanto você se preocupa com o que é
+          mais importante para você.
+        </span>
+        <button className="btn btn-primary" onClick={() => goTo(4)}>
+          Quero configurar!
+        </button>
+      </div>
+    ),
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Após autenticar-se na Binance, você verá uma sessão idêntica a imagem
+          abaixo. Clique em "Enable".
+        </span>
+
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Agora dê um nome para sua conexão, pode ser o mesmo nome que você deu
+          no passo 1
+        </span>
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Se estiver com o 2FA habilitado, confirme seu código e verifique seu
+          email. Lá encontrará um link para ativar sua API. Se não estiver com o
+          2FA hibilitado, prossiga direto para o seu email.
+        </span>
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Já em seu email, procure por uma mensagem da Binance. Ao entrar clique
+          no botão "Confirm Create".
+        </span>
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '[data-tut="reactour_addApiKey"]',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          Você provavelmente foi redirecionado para uma página monstrando as
+          configurações de sua API. Selecione e copie o código de sua API como
+          mostra a figura e cole-o na plataforma da Cryptonita, no campo
+          indicado.
+        </span>
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '[data-tut="reactour_addApiSecret"]',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Faça o mesmo que fez no passo anterior, mas agora copie e cole o campo
+          API Secret, como mostra a imagem.
+        </span>
+        <br />
+      </div>
+    ),
+  },
+  {
+    selector: '[data-tut="reactour_submit"]',
+    content: ({ goTo }) => (
+      <div className="tutorial-div">
+        <span>
+          {' '}
+          Clique no botão indicado e pronto. Você configurou sua chave de API!
+          Agora é hora de escolher um trader para seguir. No menu a esquerda
+          escolha a opção
+          <strong> Trader List </strong> <br />
+          Bons lucros para você, nos encontramos na Lua!
+        </span>
+        <br />
+      </div>
+    ),
+  },
+];
+
+export default ApiKey;
