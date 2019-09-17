@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Modal from '../common/ui/modal/modal';
+import Tour from 'reactour';
 
+import api from '../../services/api';
+import { login } from '../../services/auth';
+
+import Modal from '../common/ui/modal/modal';
 import '../../vendor/css/apiKey/apiKey.css';
 import '../../vendor/css/apiKey/tutorial.css';
-
-import { Link } from 'react-router-dom';
-import Tour from 'reactour';
 
 class ApiKey extends Component {
   constructor(props) {
@@ -18,6 +19,13 @@ class ApiKey extends Component {
     this.toggleTermsModal = this.toggleTermsModal.bind(this);
   }
 
+  state = {
+    apiKey: '',
+    secretKey: '',
+    name: '',
+    error: '',
+  };
+
   toggleTermsModal() {
     const { termsModalOpen } = this.state;
     this.setState({ termsModalOpen: !termsModalOpen });
@@ -29,6 +37,37 @@ class ApiKey extends Component {
 
   openTour = () => {
     this.setState({ isTourOpen: true });
+  };
+
+  handleIntegration = async e => {
+    e.preventDefault();
+    const { apiKey, secretKey, name } = this.state;
+    if (!apiKey || !secretKey || !name) {
+      this.setState({ error: 'Preencha todas os campos para continuar!' });
+    } else {
+      try {
+        const response = await api.post(
+          '/username/integration',
+          {
+            apiKey,
+            secretKey,
+            name,
+          },
+          {
+            headers: {
+              session:
+                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZUlkIjo3LCJlbWFpbFZhbGlkYXRpb25Db2RlIjpudWxsLCJlbWFpbCI6ImRhdmltLmNlY2lsaW9AZ21haWwuY29tIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSIsIm5hbWUiOiJVc2VyMDIiLCJuaWNrbmFtZSI6IlVzZXIwMiIsImlzQWN0aXZlIjp0cnVlLCJpc1RyYWRlciI6ZmFsc2UsIklzQWRtaW5pc3RyYXRvciI6ZmFsc2UsImNyZWF0ZWRBdCI6IjIwMTktMDktMTdUMTE6NTk6MzIuODg3WiIsInVwZGF0ZWRBdCI6IjIwMTktMDktMTdUMTE6NTk6MzIuODg3WiIsInByb2ZpbGVQaWN0dXJlIjpudWxsLCJ1c2VybmFtZUludml0ZWRMaXN0SWQiOjF9.kZCgM1Vpov915pbqoW5X31dsDubK8kVKm4mFu0ydhiw',
+            },
+          }
+        );
+        login(response.data.token);
+        this.props.history.push('/followtrader');
+      } catch (err) {
+        this.setState({
+          error: 'Houve um problema na integração, contacte o suporte!',
+        });
+      }
+    }
   };
 
   render() {
@@ -89,7 +128,10 @@ class ApiKey extends Component {
                 >
                   <i className="fa fa-question-circle" aria-hidden="true" />
                 </div>
-                <form className="contactForm">
+                <form className="contactForm" onSubmit={this.handleIntegration}>
+                  {this.state.error && (
+                    <p className="warningError">{this.state.error}</p>
+                  )}
                   <div className="row">
                     <div className="col-md-12 mt-3">
                       <div className="form-group">
@@ -101,6 +143,9 @@ class ApiKey extends Component {
                           className="form-control"
                           placeholder="Ex: Connection-1"
                           data-tut="reactour_addAlias"
+                          onChange={e =>
+                            this.setState({ name: e.target.value })
+                          }
                         />
                       </div>
                       <div className="form-group">
@@ -111,6 +156,9 @@ class ApiKey extends Component {
                           className="form-control"
                           placeholder="API KEY"
                           data-tut="reactour_addApiKey"
+                          onChange={e =>
+                            this.setState({ apiKey: e.target.value })
+                          }
                         />
                       </div>
                       <div className="form-group">
@@ -121,6 +169,9 @@ class ApiKey extends Component {
                           className="form-control"
                           placeholder="API KEY SECRET"
                           data-tut="reactour_addApiSecret"
+                          onChange={e =>
+                            this.setState({ secretKey: e.target.value })
+                          }
                         />
                       </div>
                       <div className="form-group">
@@ -141,15 +192,13 @@ class ApiKey extends Component {
                     </div>
                     <div className="clearfix" />
                     <div className="col-lg-12 text-center">
-                      <Link to="/followtrader">
-                        <button
-                          data-tut="reactour_submit"
-                          type="submit"
-                          className="btn modal-btn btn-success"
-                        >
-                          Save
-                        </button>
-                      </Link>
+                      <button
+                        data-tut="reactour_submit"
+                        type="submit"
+                        className="btn modal-btn btn-success"
+                      >
+                        Save
+                      </button>
                     </div>
                   </div>
                 </form>
