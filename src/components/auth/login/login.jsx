@@ -21,7 +21,17 @@ class Login extends Component {
   }
 
   async componentDidMount() {
-    await this.verifyLogin();
+    const isLogged = await this.verifyLogin();
+    if (isLogged) {
+      const apiSet = await this.verifyAPI();
+      if (apiSet)
+        this.props.history.push('/followTrader')
+      else
+        this.props.history.push('/apiKey')
+    }
+
+
+
   }
 
   async verifyAPI() {
@@ -29,27 +39,24 @@ class Login extends Component {
     try {
       if (identity) {
         const response = await api.get('/username/integration', { headers: { session: identity } })
-        console.log(response)
+        if (Object.keys(response.data.result).length === 0)
+          return false
+        return true;
       }
     } catch (e) {
       console.log("Error", e);
-      this.props.history.push('/apikey');
+      return false
     }
   }
   async verifyLogin() {
     const identity = getToken();
     if (identity) {
       try {
-        const response = await api.get('/username/verify', { headers: { session: identity } })
-        try {
-          const apiVerified = await this.verifyAPI();
-          this.props.history.push('/followtrader')
-        } catch (e) {
-          this.props.history.push('/apikey');
-        }
-
+        await api.get('/username/verify', { headers: { session: identity } })
+        return true;
       } catch (e) {
         console.log(e)
+        return false;
       }
     }
   }
@@ -63,12 +70,11 @@ class Login extends Component {
       try {
         const response = await api.post('/username/auth/', { email, password });
         login(response.data.result.sessionId);
-        try {
-          const apiVerified = await this.verifyAPI();
-          this.props.history.push('/followtrader')
-        } catch (e) {
-          this.props.history.push('/apikey');
-        }
+        const apiSet = await this.verifyAPI();
+        if (apiSet)
+          this.props.history.push('/followTrader')
+        else
+          this.props.history.push('/apiKey')
       } catch (err) {
         this.setState({
           error:

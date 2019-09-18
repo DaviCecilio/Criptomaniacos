@@ -93,7 +93,8 @@ export default class ApiKey extends Component {
     try {
       if (identity) {
         const response = await api.get('/username/integration', { headers: { session: identity } })
-        console.log(response)
+        if (Object.keys(response.data.result).length === 0)
+          this.props.history.push('/apiKey')
         await this.isFollowing();
       }
     } catch (e) {
@@ -165,7 +166,7 @@ export default class ApiKey extends Component {
               className="btn modal-btn btn-danger mr-2"
               onClick={this.handleChange}
             >
-              Unfollow
+              Parar de Seguir
             </button>
 
             <button
@@ -203,7 +204,7 @@ export default class ApiKey extends Component {
             </div>
           </div>
         </div>
-        <h3 className="followTitle">Follow</h3>
+        <h3 className="followTitle">Seguindo</h3>
         <p>Ficamos felizes de ter você do nosso lado!</p>
       </div>
     );
@@ -255,7 +256,7 @@ export default class ApiKey extends Component {
               className="btn modal-btn btn-success mr-2"
               onClick={this.handleChange}
             >
-              Follow
+              Seguir
             </button>
 
             <button
@@ -295,7 +296,7 @@ export default class ApiKey extends Component {
             </g>
           </svg>
         </div>
-        <h3 className="unfollowTitle">Unfollow</h3>
+        <h3 className="unfollowTitle">Não seguindo</h3>
         <p>Ficamos tristes de não ter você do nosso lado!</p>
         <p>"Tome cuidado, é perigoso ir sozinho"</p>
       </div>
