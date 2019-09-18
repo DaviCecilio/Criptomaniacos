@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import '../../vendor/css/followTrader/toggleButton.css';
 import '../../vendor/css/followTrader/iconStatus.css';
 import Modal from '../common/ui/modal/modal';
+import api from '../../services/api';
+import { getToken, traderId } from '../../services/auth';
 
 export default class ApiKey extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isFollow: true,
+      isFollow: false,
       warningUnfollowOpen: false,
       warningFollowOpen: false,
     };
@@ -16,16 +18,92 @@ export default class ApiKey extends Component {
     this.ToggleWarningUnfollow = this.ToggleWarningUnfollow.bind(this);
     this.ToggleWarningFollow = this.ToggleWarningFollow.bind(this);
     this.confirmChoice = this.confirmChoice.bind(this);
+    this.verifyAPI = this.verifyAPI.bind(this);
+    this.isFollowing = this.isFollowing.bind(this);
+    this.setFollow = this.setFollow.bind(this)
+    this.setUnfollow = this.setUnfollow.bind(this)
   }
 
-  handleChange() {
-    const { isFollow } = this.state;
-    this.setState({ isFollow: !this.state.isFollow });
-    isFollow === true
-      ? this.ToggleWarningUnfollow()
-      : this.ToggleWarningFollow();
+  async isFollowing() {
+    try {
+      const identity = getToken();
+      const response = await api.get('/social/trader-list',
+        identity && { headers: { session: identity } })
+      if (response.data.result.traders.length > 0
+        && response.data.result.traders[0].isFollowing === true) {
+        this.setState({ isFollow: true })
+      }
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+  async setFollow() {
+    try {
+      const identity = getToken();
+      const response = await api.post('/social/follow', { usernameId: traderId },
+        { headers: { session: identity } })
+      if (response.data.result.traders.length > 0
+        && response.data.result.traders[0].isFollowing === true) {
+        this.setState({ isFollow: true })
+      }
+    }
+    catch (e) {
+      console.log(e);
+    }
   }
 
+  async setUnfollow() {
+    try {
+      const identity = getToken();
+      const response = await api.delete('/social/follow',
+        { headers: { session: identity } })
+      if (response.data.result.traders.length > 0
+        && response.data.result.traders[0].isFollowing === true) {
+        this.setState({ isFollow: false })
+      }
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }
+
+
+  async handleChange() {
+    try {
+      const { isFollow } = this.state;
+      if (!isFollow) {
+        await this.setFollow();
+        this.setState({ isFollow: true });
+      }
+      else {
+        await this.setUnfollow();
+        this.setState({ isFollow: false });
+      }
+      isFollow === true
+        ? this.ToggleWarningUnfollow()
+        : this.ToggleWarningFollow();
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+  async verifyAPI() {
+    const identity = getToken();
+    try {
+      if (identity) {
+        const response = await api.get('/username/integration', { headers: { session: identity } })
+        console.log(response)
+        await this.isFollowing();
+      }
+    } catch (e) {
+      console.log("Error", e);
+      this.props.history.push('/apikey');
+    }
+  }
+  async componentDidMount() {
+    await this.verifyAPI();
+  }
   confirmChoice() {
     const { isFollow } = this.state;
     isFollow === true
@@ -55,8 +133,8 @@ export default class ApiKey extends Component {
                   cy="75"
                   r="50"
                   fill="none"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
               </svg>
               <svg className="alert-sign yellow-stroke">
@@ -109,8 +187,8 @@ export default class ApiKey extends Component {
                   cy="75"
                   r="50"
                   fill="none"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
               </svg>
               <svg className="checkmark green-stroke">
@@ -145,8 +223,8 @@ export default class ApiKey extends Component {
                   cy="75"
                   r="50"
                   fill="none"
-                  stroke-width="5"
-                  stroke-miterlimit="10"
+                  strokeWidth="5"
+                  strokeMiterlimit="10"
                 />
               </svg>
               <svg className="alert-sign yellow-stroke">
@@ -197,8 +275,8 @@ export default class ApiKey extends Component {
               cy="75"
               r="50"
               fill="none"
-              stroke-width="5"
-              stroke-miterlimit="10"
+              strokeWidth="5"
+              strokeMiterlimit="10"
             />
           </svg>
           <svg className="cross red-stroke">
@@ -237,7 +315,7 @@ export default class ApiKey extends Component {
                     : this.showUnfollow()}
                   {console.log(
                     this.state.warningUnfollowOpen &&
-                      this.state.warningFollowOpen
+                    this.state.warningFollowOpen
                   )}
                 </div>
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Tour from 'reactour';
 
 import api from '../../services/api';
-import { login } from '../../services/auth';
+import { login, getToken } from '../../services/auth';
 
 import Modal from '../common/ui/modal/modal';
 import '../../vendor/css/apiKey/apiKey.css';
@@ -56,11 +56,10 @@ class ApiKey extends Component {
           {
             headers: {
               session:
-                'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZUlkIjo3LCJlbWFpbFZhbGlkYXRpb25Db2RlIjpudWxsLCJlbWFpbCI6ImRhdmltLmNlY2lsaW9AZ21haWwuY29tIiwicGFzc3dvcmQiOiJlMTBhZGMzOTQ5YmE1OWFiYmU1NmUwNTdmMjBmODgzZSIsIm5hbWUiOiJVc2VyMDIiLCJuaWNrbmFtZSI6IlVzZXIwMiIsImlzQWN0aXZlIjp0cnVlLCJpc1RyYWRlciI6ZmFsc2UsIklzQWRtaW5pc3RyYXRvciI6ZmFsc2UsImNyZWF0ZWRBdCI6IjIwMTktMDktMTdUMTE6NTk6MzIuODg3WiIsInVwZGF0ZWRBdCI6IjIwMTktMDktMTdUMTE6NTk6MzIuODg3WiIsInByb2ZpbGVQaWN0dXJlIjpudWxsLCJ1c2VybmFtZUludml0ZWRMaXN0SWQiOjF9.kZCgM1Vpov915pbqoW5X31dsDubK8kVKm4mFu0ydhiw',
+                getToken(),
             },
           }
         );
-        login(response.data.token);
         this.props.history.push('/followtrader');
       } catch (err) {
         this.setState({

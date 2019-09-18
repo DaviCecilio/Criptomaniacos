@@ -6,6 +6,7 @@ import NotFound from './components/auth/notFound/notFound';
 
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from './services/auth';
+import Footer from './components/footer/footer';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -14,20 +15,22 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       isAuthenticated() ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-      )
+          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+        )
     }
   />
 );
 
 const Routes = () => (
   <BrowserRouter>
+    <Footer />
     <Switch>
       <Route exact path="/" component={Login} />
       <PrivateRoute exact path="/apikey" component={ApiKey} />
       <PrivateRoute exact path="/followtrader" component={FollowTrader} />
       <Route path="*" component={NotFound} />
     </Switch>
+
   </BrowserRouter>
 );
 

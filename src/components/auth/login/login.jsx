@@ -6,14 +6,53 @@ import Particles from '../../../vendor/assets/animations/particles';
 import logo from '../../../vendor/assets/img/logo-cripto.svg';
 
 import api from '../../../services/api';
-import { login } from '../../../services/auth';
+import { login, getToken } from '../../../services/auth';
 
 class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    error: '',
-  };
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      error: '',
+    };
+    this.verifyLogin = this.verifyLogin.bind(this);
+    this.verifyAPI = this.verifyAPI.bind(this)
+  }
+
+  async componentDidMount() {
+    await this.verifyLogin();
+  }
+
+  async verifyAPI() {
+    const identity = getToken();
+    try {
+      if (identity) {
+        const response = await api.get('/username/integration', { headers: { session: identity } })
+        console.log(response)
+      }
+    } catch (e) {
+      console.log("Error", e);
+      this.props.history.push('/apikey');
+    }
+  }
+  async verifyLogin() {
+    const identity = getToken();
+    if (identity) {
+      try {
+        const response = await api.get('/username/verify', { headers: { session: identity } })
+        try {
+          const apiVerified = await this.verifyAPI();
+          this.props.history.push('/followtrader')
+        } catch (e) {
+          this.props.history.push('/apikey');
+        }
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  }
 
   handleSignIn = async e => {
     e.preventDefault();
@@ -23,8 +62,13 @@ class Login extends Component {
     } else {
       try {
         const response = await api.post('/username/auth/', { email, password });
-        login(response.data.token);
-        this.props.history.push('/apikey');
+        login(response.data.result.sessionId);
+        try {
+          const apiVerified = await this.verifyAPI();
+          this.props.history.push('/followtrader')
+        } catch (e) {
+          this.props.history.push('/apikey');
+        }
       } catch (err) {
         this.setState({
           error:
