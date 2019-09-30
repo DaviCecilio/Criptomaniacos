@@ -158,7 +158,7 @@ export default class ApiKey extends Component {
                 </g>
               </svg>
             </div>
-            <h2>Você está prestes a parar de seguir a Criptomaníacos</h2>
+            <h2>Você está prestes a parar de seguir a Terranova</h2>
             <p>Você não replicará mais as operações</p>
 
             <button
@@ -248,7 +248,7 @@ export default class ApiKey extends Component {
                 </g>
               </svg>
             </div>
-            <h2>Você está prestes a seguir a Criptomaníacos</h2>
+            <h2>Você está prestes a seguir a Terranova</h2>
             <p>Todas as novas operações serão copiadas para você</p>
 
             <button

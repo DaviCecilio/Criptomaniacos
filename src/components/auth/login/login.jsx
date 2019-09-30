@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import '../../../vendor/css/login/login.css';
 import Particles from '../../../vendor/assets/animations/particles';
-import logo from '../../../vendor/assets/img/logo-cripto.svg';
+import logo from '../../../vendor/assets/img/logo-cripto.png';
 
 import api from '../../../services/api';
 import { login, getToken } from '../../../services/auth';
@@ -100,7 +100,7 @@ class Login extends Component {
                   <img
                     className="card-title img-fluid mb-3 mt-1"
                     src={logo}
-                    alt="Criptomaniacos - Logo"
+                    alt="Terranova - Logo"
                   />
                   <hr />
                   <form onSubmit={this.handleSignIn}>

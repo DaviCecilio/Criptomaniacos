@@ -88,7 +88,7 @@ class ApiKey extends Component {
         <Modal show={termsModalOpen}>
           <div style={{ textAlign: 'center' }}>
             <p>
-              Olá, a Criptomaníacos ainda está em fase de testes, não
+              Olá, a Terranova ainda está em fase de testes, não
               responsabilizamos por qualquer "bug", erro, falha na operação da
               plataforma e sua interação com APIs. Ao usar nossa plataforma,
               você aceita que está na condição em que é encontrado, e não há
@@ -117,9 +117,9 @@ class ApiKey extends Component {
                 >
                   Sua chave de API é armazenada em forma criptografada e ninguém
                   pode acessá-la. Só é possível fazer saques com a autorização
-                  do proprietário da conta, mas a Criptomaníacos nunca
+                  do proprietário da conta, mas a Terranova nunca
                   solicitará essa autorização. Perguntas ou Sugestões:{' '}
-                  <strong>contato@criptomaniacos.io</strong>
+                  <strong>contato@viniciusterranova.com.br</strong>
                 </div>
                 <div
                   onClick={() => this.openTour()}
